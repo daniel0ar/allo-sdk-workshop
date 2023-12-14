@@ -1,13 +1,13 @@
 import { RegistryABI } from "@/abi/Registry";
 import { wagmiConfigData } from "@/services/wagmi";
 import { getEventValues } from "@/utils/common";
-// import { Registry } from "@allo-team/allo-v2-sdk";
-// import { TransactionData } from "@allo-team/allo-v2-sdk/dist/Common/types";
+import { Registry } from "@allo-team/allo-v2-sdk";
+import { TransactionData } from "@allo-team/allo-v2-sdk/dist/Common/types";
 import { CreateProfileArgs } from "@allo-team/allo-v2-sdk/dist/Registry/types";
 import { sendTransaction } from "@wagmi/core";
 
-// create a new instance of Registry
-// todo: snippet => createRegistryInstance
+// Create a new Registry instance
+const registry = new Registry({ chain: 5 });
 
 // NOTE: Update this function to use your own data.
 export const createProfile = async () => {

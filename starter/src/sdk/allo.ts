@@ -1,10 +1,10 @@
 import { getIPFSClient } from "@/services/ipfs";
-// import { Allo } from "@allo-team/allo-v2-sdk";
+import { Allo } from "@allo-team/allo-v2-sdk";
 import { deployMicrograntsStrategy } from "./microgrants";
 import { createProfile } from "./registry";
 
-// create a new instance of Allo
-// todo: snippet => createAlloInstance
+// Create a new Allo instance
+const allo = new Allo({ chain: 5 });
 
 export const createPool = async () => {
   // Create a profile to use as the pool owner/creator
