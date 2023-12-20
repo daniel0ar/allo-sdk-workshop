@@ -4,7 +4,10 @@ import { deployMicrograntsStrategy } from "./microgrants";
 import { createProfile } from "./registry";
 
 // Create a new Allo instance
-const allo = new Allo({ chain: 5 });
+export const allo = new Allo({
+  chain: 11155111,
+  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+});
 
 export const createPool = async () => {
   // Create a profile to use as the pool owner/creator
@@ -24,13 +27,13 @@ export const createPool = async () => {
   };
 
   // NOTE: Use this to pin your base64 image to IPFS
-  // let imagePointer;
-  // if (metadata.base64Image && metadata.base64Image.includes("base64")) {
-  //   imagePointer = await ipfsClient.pinJSON({
-  //     data: metadata.base64Image,
-  //   });
-  //   metadata.base64Image = imagePointer;
-  // }
+  /* let imagePointer;
+  if (metadata.base64Image && metadata.base64Image.includes("base64")) {
+    imagePointer = await ipfsClient.pinJSON({
+      data: metadata.base64Image,
+    });
+    metadata.base64Image = imagePointer;
+  } */
 
   const pointer = await ipfsClient.pinJSON(metadata);
   console.log("Metadata saved to IPFS with pointer: ", pointer);

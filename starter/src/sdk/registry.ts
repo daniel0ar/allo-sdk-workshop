@@ -1,4 +1,5 @@
 import { RegistryABI } from "@/abi/Registry";
+import { client, account } from "@/services/viem";
 import { wagmiConfigData } from "@/services/wagmi";
 import { getEventValues } from "@/utils/common";
 import { Registry } from "@allo-team/allo-v2-sdk";
@@ -7,13 +8,17 @@ import { CreateProfileArgs } from "@allo-team/allo-v2-sdk/dist/Registry/types";
 import { sendTransaction } from "@wagmi/core";
 
 // Create a new Registry instance
-const registry = new Registry({ chain: 5 });
+const registry = new Registry({
+  chain: 11155111,
+  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+});
 
 // NOTE: Update this function to use your own data.
 export const createProfile = async () => {
   // prepare the profile arguments, these are specifically typed and will fail if not correct.
   // We import the type from the SDK to ensure we are using the correct type.
   // todo: update the members and owner to your own address(es)
+  // Prepare the transaction arguments
   const createProfileArgs: CreateProfileArgs = {
     nonce: Math.floor(Math.random() * 1000000),
     name: "Allo Workshop",
@@ -26,12 +31,11 @@ export const createProfile = async () => {
       "0xE7eB5D2b5b188777df902e89c54570E7Ef4F59CE",
       "0x1fD06f088c720bA3b7a3634a8F021Fdd485DcA42",
     ],
-    // the wallet your connecting with
     owner: "0x1fD06f088c720bA3b7a3634a8F021Fdd485DcA42",
   };
 
-  // create the transaction with the arguments
-  // todo: snippet => createProfileTX
+  // Create the transaction with the arguments
+  const txData: TransactionData = registry.createProfile(createProfileArgs);
 
   const txHash = await sendTransaction({
     to: txData.to,
@@ -39,6 +43,8 @@ export const createProfile = async () => {
     value: BigInt(txData.value),
   });
 
+  console.log(`Transaction hash: ${txHash}`);
+  
   const receipt = await wagmiConfigData.publicClient.waitForTransactionReceipt({
     hash: txHash.hash,
     confirmations: 2,

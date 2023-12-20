@@ -7,6 +7,7 @@ import {
   base,
   celo,
   goerli,
+  sepolia,
   mainnet,
   optimism,
   polygon
@@ -21,8 +22,8 @@ dotenv.config();
 
 const stagingChains = [
   // celoAlfajores,
-  goerli,
-  // sepolia,
+  // goerli,
+  sepolia,
   // polygonMumbai,
   // arbitrumGoerli,
 ];

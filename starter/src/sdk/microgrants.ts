@@ -12,7 +12,8 @@ import {
 } from "@/utils/common";
 import { checkIfRecipientIsIndexedQuery } from "@/utils/query";
 import { getProfileById } from "@/utils/request";
-// import { MicroGrantsStrategy } from "@allo-team/allo-v2-sdk";
+import { MicroGrantsStrategy } from "@allo-team/allo-v2-sdk";
+import { StrategyType } from "@allo-team/allo-v2-sdk/dist/strategies/MicroGrantsStrategy/types";
 import {
   TransactionData,
   ZERO_ADDRESS,
@@ -27,10 +28,18 @@ import {
   waitForTransaction,
 } from "@wagmi/core";
 import { decodeEventLog } from "viem";
-// import { allo } from "./allo";
+import { allo } from "./allo";
+import { CreatePoolArgs } from "@allo-team/allo-v2-sdk/dist/Allo/types";
 
 // create a strategy instance
-// todo: snippet => createStrategyInstance
+const strategy = new MicroGrantsStrategy({
+  chain: 11155111,
+  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+});
+
+// Specify the strategy type - MicroGrants for default/demo purposes
+const strategyType = StrategyType.MicroGrants;
+const deployParams = strategy.getDeployParams(strategyType);
 
 // NOTE: This is the deploy params for the MicroGrantsv1 contract
 // 🚨 Please make sure your strategy type is correct or Spec will not index it.
@@ -46,7 +55,7 @@ export const deployMicrograntsStrategy = async (
   pointer: any,
   profileId: string
 ) => {
-  const walletClient = await getWalletClient({ chainId: 5 });
+  const walletClient = await getWalletClient({ chainId: 11155111 });
   // const profileId = await createProfile();
 
   let strategyAddress: string = "0x";
@@ -78,7 +87,7 @@ export const deployMicrograntsStrategy = async (
   };
 
   // get the init data
-  // todo: snippet => getInitializeData
+  const initStrategyData = await strategy.getInitializeData(initParams);
 
   const poolCreationData = {
     profileId: profileId,
@@ -98,15 +107,18 @@ export const deployMicrograntsStrategy = async (
     ],
   };
 
-  // Prepare the transaction data
-  // todo: snippet => createPoolWithCustomStrategy
-
+  const createPoolData = await allo.createPoolWithCustomStrategy(
+    poolCreationData
+  );
+  
   try {
     const tx = await sendTransaction({
       to: createPoolData.to as string,
       data: createPoolData.data,
       value: BigInt(createPoolData.value),
     });
+
+    console.log(`Transaction hash: ${tx}`);
 
     const receipt =
       await wagmiConfigData.publicClient.waitForTransactionReceipt({
@@ -296,7 +308,7 @@ export const createApplication = async (
       });
 
     const { logs } = reciept;
-    const decodedLogs = logs.map((log) =>
+    const decodedLogs = logs.map((log: any) =>
       decodeEventLog({ ...log, abi: MicroGrantsABI })
     );
 
