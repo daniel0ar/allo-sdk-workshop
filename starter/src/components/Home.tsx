@@ -19,7 +19,7 @@ import { WagmiConfig } from "wagmi";
 
 const Home = () => {
   const profileId =
-    "0x0aa2b47aa154688c11623fa2853f56c245684efd8c530047163775f5e0b304a5";
+    "0x2b6d1e9ec1a6d096b9541b333af87cf53a3fb1b8f8b0985350aaa7f29746353d";
   const _newApplicationData: TNewApplication = {
     name: "Test Application",
     website: "https://docs.allo.gitcoin.co",
