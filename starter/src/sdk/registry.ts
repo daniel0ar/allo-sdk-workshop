@@ -9,8 +9,8 @@ import { sendTransaction } from "@wagmi/core";
 
 // Create a new Registry instance
 const registry = new Registry({
-  chain: 11155111,
-  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+  chain: 421614,
+  rpc: "https://arbitrum-sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
 });
 
 // NOTE: Update this function to use your own data.

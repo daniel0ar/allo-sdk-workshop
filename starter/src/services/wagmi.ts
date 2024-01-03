@@ -10,7 +10,8 @@ import {
   sepolia,
   mainnet,
   optimism,
-  polygon
+  polygon,
+  arbitrumSepolia
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
@@ -23,9 +24,10 @@ dotenv.config();
 const stagingChains = [
   // celoAlfajores,
   // goerli,
-  sepolia,
+  // sepolia,
   // polygonMumbai,
   // arbitrumGoerli,
+  arbitrumSepolia
 ];
 
 const productionChains = [arbitrum, base, celo, mainnet, polygon, optimism];

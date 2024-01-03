@@ -33,8 +33,8 @@ import { CreatePoolArgs } from "@allo-team/allo-v2-sdk/dist/Allo/types";
 
 // create a strategy instance
 const strategy = new MicroGrantsStrategy({
-  chain: 11155111,
-  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+  chain: 421614,
+  rpc: "https://arbitrum-sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
 });
 
 // Specify the strategy type - MicroGrants for default/demo purposes
@@ -55,20 +55,22 @@ export const deployMicrograntsStrategy = async (
   pointer: any,
   profileId: string
 ) => {
-  const walletClient = await getWalletClient({ chainId: 11155111 });
+  const walletClient = await getWalletClient({ chainId: 421614 });
   // const profileId = await createProfile();
 
   let strategyAddress: string = "0x";
   let poolId = -1;
 
   try {
+    console.log("ABI IS: ", deployParams.abi)
+    console.log("BYTECODE IS: ", deployParams.bytecode)
     const hash = await walletClient!.deployContract({
       abi: deployParams.abi,
       bytecode: deployParams.bytecode as `0x${string}`,
       args: [],
     });
 
-    const result = await waitForTransaction({ hash: hash, chainId: 5 });
+    const result = await waitForTransaction({ hash: hash, chainId: 421614 });
     strategyAddress = result.contractAddress!;
   } catch (e) {
     console.error("Deploying Strategy", e);
@@ -101,13 +103,11 @@ export const deployMicrograntsStrategy = async (
       pointer: pointer.IpfsHash,
     },
     managers: [
-      "0x5cdb35fADB8262A3f88863254c870c2e6A848CcA",
-      "0xE7eB5D2b5b188777df902e89c54570E7Ef4F59CE",
-      "0x1fD06f088c720bA3b7a3634a8F021Fdd485DcA42",
+      "0x32B2304953a56Be7eb58a5b564Be1b6A5358761A",
     ],
   };
 
-  const createPoolData = await allo.createPoolWithCustomStrategy(
+  const createPoolData = allo.createPoolWithCustomStrategy(
     poolCreationData
   );
   
@@ -216,7 +216,7 @@ export const createApplication = async (
   chain: number,
   poolId: number
 ): Promise<string> => {
-  if (chain !== 5) return "0x";
+  if (chain !== 421614) return "0x";
 
   // Set some allocators for demo
   // NOTE: Import type from SDK - SetAllocatorData[]

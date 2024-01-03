@@ -5,16 +5,16 @@ import { createProfile } from "./registry";
 
 // Create a new Allo instance
 export const allo = new Allo({
-  chain: 11155111,
-  rpc: "https://sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
+  chain: 421614,
+  rpc: "https://arbitrum-sepolia.infura.io/v3/56ce63e709fb4d8eace0e1622a87ea7d",
 });
 
 export const createPool = async () => {
   // Create a profile to use as the pool owner/creator
   // todo: you can add the profileId you generated intiially here so you don't have to create a new one each time.
-  const profileId =
-    "0x2b6d1e9ec1a6d096b9541b333af87cf53a3fb1b8f8b0985350aaa7f29746353d";
-  // const profileId = await createProfile();
+  // const profileId =
+  //  "0x2b6d1e9ec1a6d096b9541b333af87cf53a3fb1b8f8b0985350aaa7f29746353d";
+   const profileId = await createProfile();
 
   // Save metadata to IPFS
   const ipfsClient = getIPFSClient();
